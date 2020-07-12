@@ -57,14 +57,9 @@
       
 <section class="cover">
     
-      
-      <a class="forkMe" href="https://github.com/Shen-Yu/hexo-theme-ayer"
-        target="_blank"><img width="149" height="149" src="/images/forkme.png"
-          class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
-    
   <div class="cover-frame">
     <div class="bg-box">
-      <img src="/images/cover1.jpg" alt="image frame" />
+      <img src="/images/cover4.jpg" alt="image frame" />
     </div>
     <div class="cover-inner text-center text-white">
       <h1><a href="/">Tyrant-K</a></h1>
@@ -136,21 +131,7 @@
   <time datetime="2020-07-10T14:22:21.000Z" itemprop="datePublished">2020-07-10</time>
 </a>    
     </div>
-      
-    <div class="article-entry" itemprop="articleBody">
        
-  <p><img src="https://upload-images.jianshu.io/upload_images/20274834-404ebc53129cd7ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Leftover Capture Data"></p>
-<p>USB设备，如鼠标、键盘等的命令指令啥的都在Leftover Capture Data里面</p>
-<p>tshark可以在完整安装的wireshark路径下找到，用wireshark中的tshark工具可以帮助我们将其提取出来以便分析</p>
-<p>大概句法为<code>tshark  -r usb.pcap -T fields -e usb.capdata &gt; usb.txt</code></p>
-<p>正常的情况下，里面肯定有空行，因为流量包里面有可能掺杂其他数据或者不存在Leftover Capture Data的数据流，可以用notepad++等方式吧，去除空行</p>
-<p>导出的文件大概是这个样子，不知道为什么,有的导出来是带<code>:</code>的，换了好几个wireshark版本发现都是这样<br><img src="https://upload-images.jianshu.io/upload_images/20274834-9d84e9a46629dd75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="tshark导出的文件"><br>提取出来数据流，我们重点肯定在于他输入了什么，每一条的第三字节就是我们重点关注的，也就是第五第六列。大概的转换关系在脚本的字典中也有具体的体现。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/20274834-5b5b7e58c3ef8a23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="LowB的第一次成功"><br>键盘的抓取的USB流的转换脚本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mappings &#x3D; &#123; 0x04:&quot;A&quot;,  0x05:&quot;B&quot;,  0x06:&quot;C&quot;, 0x07:&quot;D&quot;, 0x08:&quot;E&quot;, 0x09:&quot;F&quot;, 0x0A:&quot;G&quot;,  0x0B:&quot;H&quot;, 0x0C:&quot;I&quot;,  0x0D:&quot;J&quot;, 0x0E:&quot;K&quot;, 0x0F:&quot;L&quot;, 0x10:&quot;M&quot;, 0x11:&quot;N&quot;,0x12:&quot;O&quot;,  0x13:&quot;P&quot;, 0x14:&quot;Q&quot;, 0x15:&quot;R&quot;, 0x16:&quot;S&quot;, 0x17:&quot;T&quot;, 0x18:&quot;U&quot;,0x19:&quot;V&quot;, 0x1A:&quot;W&quot;, 0x1B:&quot;X&quot;, 0x1C:&quot;Y&quot;, 0x1D:&quot;Z&quot;, 0x1E:&quot;1&quot;, 0x1F:&quot;2&quot;, 0x20:&quot;3&quot;, 0x21:&quot;4&quot;, 0x22:&quot;5&quot;,  0x23:&quot;6&quot;, 0x24:&quot;7&quot;, 0x25:&quot;8&quot;, 0x26:&quot;9&quot;, 0x27:&quot;0&quot;, 0x28:&quot;\n&quot;, 0x2a:&quot;[DEL]&quot;,  0X2B:&quot;    &quot;, 0x2C:&quot; &quot;,  0x2D:&quot;-&quot;, 0x2E:&quot;&#x3D;&quot;, 0x2F:&quot;[&quot;,  0x30:&quot;]&quot;,  0x31:&quot;\\&quot;, 0x32:&quot;~&quot;, 0x33:&quot;;&quot;,  0x34:&quot;&#39;&quot;, 0x36:&quot;,&quot;,  0x37:&quot;.&quot; &#125;</span><br><span class="line">nums &#x3D; []</span><br><span class="line">keys &#x3D; open(&#39;usb.txt&#39;)</span><br><span class="line"></span><br><span class="line">for line in keys:</span><br><span class="line">    nums.append(int(line[4:6],16))</span><br><span class="line"></span><br><span class="line">output &#x3D; &quot;&quot;</span><br><span class="line">for n in nums:</span><br><span class="line">    if n &#x3D;&#x3D; 0:</span><br><span class="line">             continue</span><br><span class="line">    if n in mappings:</span><br><span class="line">             output +&#x3D; mappings[n]</span><br><span class="line">    else:</span><br><span class="line">             output +&#x3D; &#39;[unknown]&#39;</span><br><span class="line"></span><br><span class="line">print(&quot;output:&quot;+output)</span><br></pre></td></tr></table></figure> 
-      <!-- reward -->
-      
-    </div>
-    
 
     <!-- copyright -->
     
@@ -159,8 +140,7 @@
     </footer>
   </div>
 
-    
- 
+   
    
 </article>
 
@@ -189,21 +169,7 @@
   <time datetime="2020-07-10T14:05:29.000Z" itemprop="datePublished">2020-07-10</time>
 </a>    
     </div>
-      
-    <div class="article-entry" itemprop="articleBody">
        
-  <p><code>volatility -f memory imageinfo  #查看系统版本</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP0x64, Win2008R2SP1x64_24000, Win2008R2SP1x64_23418, Win2008R2SP1x64, Win7SP1x64_24000, Win7SP1x64_23418</span><br><span class="line">AS Layer1 : WindowsAMD64PagedMemory (Kernel AS)</span><br><span class="line">AS Layer2 : FileAddressSpace (&#x2F;root&#x2F;桌面&#x2F;quzheng3&#x2F;memory)</span><br><span class="line">PAE type : No PAE</span><br><span class="line">DTB : 0x187000L</span><br><span class="line">KDBG : 0xf80003ffd0a0L</span><br><span class="line">Number of Processors : 1</span><br><span class="line">Image Type (Service Pack) : 1</span><br><span class="line">KPCR for CPU 0 : 0xfffff80003ffed00L</span><br><span class="line">KUSER_SHARED_DATA : 0xfffff78000000000L</span><br><span class="line">Image date and time : 2020-05-17 06:20:56 UTC+0000</span><br><span class="line">Image local date and time : 2020-05-17 14:20:56 +0800</span><br></pre></td></tr></table></figure>
-<p><code>volatility -f  memory --profile=Win7SP1x64 pslist   # 列出进程</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-75308a8d4b220128.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="列出进程"></p>
-<p><code>volatility -f memory --profile=Win7SP1x64 cmdscan  #查看cmd命令历史</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-f383ecb64fb8a7e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="查看cmd命令历史"></p>
-<p><code>volatility -f  memory --profile=Win7SP1x64 filescan | grep flag #查找flag文件</code><br><code>volatility -f memory --profile=Win7SP1x64 dumpfiles -Q 0x000000001e85f430 --dump-dir=./  #dump目标文件</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-556614964ab8be37.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="查找flag文件"></p>
-<p><code>volatility -f memory --profile=Win7SP1x64 printkey -K &quot;SAM\Domains\Account\Users\Names&quot;   #列出SAM表用户</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-bce93325a20cdda9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="列出SAM用户"></p>
-<p><code>volatility -f  memory --profile=Win7SP1x64 hivelist  #获取system和SAM地址</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-b9931b93e5358728.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="SAM和system地址"><br><code>volatility -f memory --profile=Win7SP1x64 hashdump -y 0xfffff8a000024010 -s 0xfffff8a00167a010</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-a9d4521df4e303b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="SAM账号密码"><br>NTLM算法计算，可得原密码</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
 
     <!-- copyright -->
     
@@ -212,8 +178,7 @@
     </footer>
   </div>
 
-    
- 
+   
    
 </article>
 
@@ -242,19 +207,7 @@
   <time datetime="2020-07-10T14:00:42.000Z" itemprop="datePublished">2020-07-10</time>
 </a>    
     </div>
-      
-    <div class="article-entry" itemprop="articleBody">
        
-  <p>题目：工控安全分析人员在互联网上部署了工控仿真蜜罐，通过蜜罐可抓取并分析互联网上针对工业资产的扫描行为，将存在高危扫描行为的IP加入防火墙黑名单可有效减少工业企业对于互联网的攻击面。分析出日志中针对西门子私有通信协议扫描最多的IP，分析该扫描组织。FLAG为该IP的域名。<br>附件:henoypot.log日志<br><img src="https://upload-images.jianshu.io/upload_images/20274834-e025647e6f775f82.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="henoypot.log"></p>
-<p>脚本：分析出日志中针对西门子私有通信协议扫描最多的IP</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf-8 -*-</span><br><span class="line">import fileinput</span><br><span class="line">import re</span><br><span class="line">import os</span><br><span class="line">import shutil</span><br><span class="line">def readIp():#从日志中获得IP</span><br><span class="line"> with open(r&#39;honeypot.log&#39;, &#39;r&#39;) as f:</span><br><span class="line">      for line in f.readlines():</span><br><span class="line">         result2 &#x3D; re.findall(&#39;[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;&#39;,line) #匹配ip正则表达式                          </span><br><span class="line">         if not result2 &#x3D;&#x3D; []:</span><br><span class="line">             result &#x3D; result2[0] + &#39;\n&#39;</span><br><span class="line">         with open(&#39;ip.txt&#39;, &#39;a+&#39;) as w:</span><br><span class="line">             w.write(result)</span><br><span class="line">def setIp():#去重</span><br><span class="line"> a&#x3D;0</span><br><span class="line"> readDir &#x3D; &quot;ip.txt&quot;</span><br><span class="line"> writeDir &#x3D; &quot;newip.txt&quot;#new</span><br><span class="line"> lines_seen &#x3D; set()</span><br><span class="line"> outfile &#x3D; open(writeDir, &quot;w&quot;)</span><br><span class="line"> f &#x3D; open(readDir, &quot;r&quot;)</span><br><span class="line"> for line in f:</span><br><span class="line">   if line not in lines_seen:</span><br><span class="line">     a+&#x3D;1</span><br><span class="line">     outfile.write(line)</span><br><span class="line">     lines_seen.add(line)</span><br><span class="line"> print(a)</span><br><span class="line"> outfile.close()</span><br><span class="line">def readDns():#域名解析</span><br><span class="line"> with open(r&#39;newip.txt&#39;, &#39;r&#39;) as g:</span><br><span class="line">     for i in g.readlines():</span><br><span class="line">         com&#x3D;os.popen(&#39;nslookup %s&#39;%i)</span><br><span class="line">         comm&#x3D;com.read()</span><br><span class="line">         if comm.find(&#39;NXDOMAIN&#39;)&#x3D;&#x3D;-1:</span><br><span class="line">             print comm</span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line"> readIp()</span><br><span class="line"> setIp()</span><br><span class="line"> readDns()</span><br></pre></td></tr></table></figure>
-<p><img src="https://upload-images.jianshu.io/upload_images/20274834-492a792a832b1297.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NXDOMAIN解释"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/20274834-648719a9e23e810b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行脚本"><br><img src="https://upload-images.jianshu.io/upload_images/20274834-68c4707bb6fbcf55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DNS解析"><br>找到了这么多IP，解析这么多域名,但是我不明白为什么是这个域名，按其他WP来说是，尝试域名…想懂其中的原理。还得继续学。</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
 
     <!-- copyright -->
     
@@ -263,8 +216,7 @@
     </footer>
   </div>
 
-    
- 
+   
    
 </article>
 
@@ -293,22 +245,7 @@
   <time datetime="2020-07-10T13:31:08.000Z" itemprop="datePublished">2020-07-10</time>
 </a>    
     </div>
-      
-    <div class="article-entry" itemprop="articleBody">
        
-  <p><img src="https://upload-images.jianshu.io/upload_images/20274834-16f93c7cf67702c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="常见Modbus功能码"><br><img src="https://upload-images.jianshu.io/upload_images/20274834-5b8d942075af9934.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="国家标准常见功能码"></p>
-<p>个人理解就是对应写入到不同寄存器里不同的数据的查看</p>
-<p>读：<br>功能码 01 为读内部比特量输出状态；如告警、变位、故障、异常等。<br>功能码 02 为读外部开关量输入状态；如光耦输入、继电器输入等。<br>功能码 03 为读内部输出量的寄存器；如一些配置参数、定值的读取等。<br>功能码 04 为读外部输入量的寄存器；如外部电压电流模拟量，温湿度等。<br>写：<br>功能码 05 为写内部单个开关量状态；如光耦输出、继电器输出等。<br>功能码 06 为写内部单个寄存器的值；如更改配置参数、定值等。<br>功能码 15 为写内部多个开关量状态；如同 05。<br>功能码 16 为写内部多个寄存器的值；如同 06；对时是写多寄存器，用此功能码。</p>
-<p>俩个脚本，应该还有很多用处，先留下了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import pyshark #下载这个包有点问题，最好科学上网一下，Python3.5版本以上，wireshark版本尽量最新，最好组件都下好，反正流量分析没准都用得到</span><br><span class="line">def get_code():</span><br><span class="line">     captures &#x3D; pyshark.FileCapture(&quot;modbus1.pcap&quot;) #设置Modbus流量包路径</span><br><span class="line">     func_codes &#x3D; &#123;&#125;</span><br><span class="line">     for c in captures:</span><br><span class="line">         for pkt in c:</span><br><span class="line">             if pkt.layer_name &#x3D;&#x3D; &quot;modbus&quot;:</span><br><span class="line">                 func_code &#x3D; int(pkt.func_code)</span><br><span class="line">                 if func_code in func_codes:</span><br><span class="line">                     func_codes[func_code] +&#x3D; 1</span><br><span class="line">                 else:</span><br><span class="line">                     func_codes[func_code] &#x3D; 1</span><br><span class="line">     print(func_codes)</span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line"> get_code()</span><br><span class="line">#这个脚本大概就是分析不同功能码写入的值的情况</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import pyshark</span><br><span class="line">def find_flag():</span><br><span class="line">     cap &#x3D; pyshark.FileCapture(&quot;modbus1.pcap&quot;) #设置Modbus流量包路径</span><br><span class="line">     idx &#x3D; 1</span><br><span class="line">     for c in cap:</span><br><span class="line">         for pkt in c:</span><br><span class="line">             if pkt.layer_name &#x3D;&#x3D; &quot;modbus&quot;:</span><br><span class="line">                 func_code &#x3D; int(pkt.func_code)</span><br><span class="line">                 if func_code &#x3D;&#x3D; 16: #查看对应功能码寄存器下写入的值</span><br><span class="line">                     payload &#x3D; str(c[&quot;TCP&quot;].payload).replace(&quot;:&quot;, &quot;&quot;)</span><br><span class="line">                     print(hex_to_ascii(payload))</span><br><span class="line">                     print(&quot;&#123;0&#125; *&quot;.format(idx))</span><br><span class="line">         idx +&#x3D; 1</span><br><span class="line">def hex_to_ascii(payload):</span><br><span class="line"> data &#x3D; payload</span><br><span class="line"> flags &#x3D; []</span><br><span class="line"> for d in data:</span><br><span class="line">     _ord &#x3D; ord(d)</span><br><span class="line">     if (_ord &gt; 0) and (_ord &lt; 128):</span><br><span class="line">         flags.append(chr(_ord))</span><br><span class="line"> return &#39;&#39;.join(flags)</span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line"> find_flag()</span><br></pre></td></tr></table></figure>
-
-<p>有问题，欢迎指正，毕竟初学<br>参考链接：<br><code>https://xz.aliyun.com/t/5960</code><br><code>[https://wenku.baidu.com/view/8e6cc5f9b4daa58da1114a20.html](https://wenku.baidu.com/view/8e6cc5f9b4daa58da1114a20.html)</code></p>
- 
-      <!-- reward -->
-      
-    </div>
-    
 
     <!-- copyright -->
     
@@ -317,8 +254,7 @@
     </footer>
   </div>
 
-    
- 
+   
    
 </article>
 
@@ -347,23 +283,7 @@
   <time datetime="2020-06-25T16:29:00.000Z" itemprop="datePublished">2020-06-26</time>
 </a>    
     </div>
-      
-    <div class="article-entry" itemprop="articleBody">
        
-  <p>Aircrack-ng是无线攻击工具，Kali自带<br><code>aircrack-ng --help     #查看帮助</code></p>
-<figure class="highlight plain"><figcaption><span>1.6  - (C) 2006-2020 Thomas d'Otreppe</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.aircrack-ng.org</span><br><span class="line">usage: aircrack-ng [options] &lt;input file(s)&gt;</span><br><span class="line">Common options:</span><br><span class="line">    -a &lt;amode&gt; : force attack mode (1&#x2F;WEP, 2&#x2F;WPA-PSK)</span><br><span class="line">    -e &lt;essid&gt; : target selection: network identifier</span><br><span class="line">    -b &lt;bssid&gt; : target selection: access point&#39;s MAC</span><br><span class="line">    -p &lt;nbcpu&gt; : # of CPU to use  (default: all CPUs)</span><br><span class="line">    -q         : enable quiet mode (no status output)</span><br><span class="line">    -C &lt;macs&gt;  : merge the given APs to a virtual one</span><br><span class="line">    -l &lt;file&gt;  : write key to file. Overwrites file.</span><br><span class="line">Static WEP cracking options:</span><br><span class="line">    -c         : search alpha-numeric characters only</span><br><span class="line">    -t         : search binary coded decimal chr only</span><br><span class="line">    -h         : search the numeric key for Fritz!BOX</span><br><span class="line">    -d &lt;mask&gt;  : use masking of the key (A1:XX:CF:YY)</span><br><span class="line">    -m &lt;maddr&gt; : MAC address to filter usable packets</span><br><span class="line">    -n &lt;nbits&gt; : WEP key length :  64&#x2F;128&#x2F;152&#x2F;256&#x2F;512</span><br><span class="line">    -i &lt;index&gt; : WEP key index (1 to 4), default: any</span><br><span class="line">    -f &lt;fudge&gt; : bruteforce fudge factor,  default: 2</span><br><span class="line">    -k &lt;korek&gt; : disable one attack method  (1 to 17)</span><br><span class="line">    -x or -x0  : disable bruteforce for last keybytes</span><br><span class="line">    -x1        : last keybyte bruteforcing  (default)</span><br><span class="line">    -x2        : enable last  2 keybytes bruteforcing</span><br><span class="line">    -X         : disable  bruteforce   multithreading</span><br><span class="line">    -y         : experimental  single bruteforce mode</span><br><span class="line">    -K         : use only old KoreK attacks (pre-PTW)</span><br><span class="line">    -s         : show the key in ASCII while cracking</span><br><span class="line">    -M &lt;num&gt;   : specify maximum number of IVs to use</span><br><span class="line">    -D         : WEP decloak, skips broken keystreams</span><br><span class="line">    -P &lt;num&gt;   : PTW debug:  1: disable Klein, 2: PTW</span><br><span class="line">    -1         : run only 1 try to crack key with PTW</span><br><span class="line">    -V         : run in visual inspection mode</span><br><span class="line">WEP and WPA-PSK cracking options:</span><br><span class="line">    -w &lt;words&gt; : path to wordlist(s) filename(s)</span><br><span class="line">    -N &lt;file&gt;  : path to new session filename</span><br><span class="line">    -R &lt;file&gt;  : path to existing session filename</span><br><span class="line">WPA-PSK options:</span><br><span class="line">    -E &lt;file&gt;  : create EWSA Project file v3</span><br><span class="line">    -I &lt;str&gt;   : PMKID string (hashcat -m 16800)</span><br><span class="line">    -j &lt;file&gt;  : create Hashcat v3.6+ file (HCCAPX)</span><br><span class="line">    -J &lt;file&gt;  : create Hashcat file (HCCAP)</span><br><span class="line">    -S         : WPA cracking speed test</span><br><span class="line">    -Z &lt;sec&gt;   : WPA cracking speed test length of</span><br><span class="line">                 execution.</span><br><span class="line">    -r &lt;DB&gt;    : path to airolib-ng database</span><br><span class="line">                 (Cannot be used with -w)</span><br><span class="line">SIMD selection:</span><br><span class="line">    --simd-list       : Show a list of the available</span><br><span class="line">                        SIMD architectures, for this</span><br><span class="line">                        machine.</span><br><span class="line">    --simd&#x3D;&lt;option&gt;   : Use specific SIMD architecture.</span><br><span class="line">    &lt;option&gt; may be one of the following, depending on</span><br><span class="line">    your platform:</span><br><span class="line">                 generic</span><br><span class="line">                 avx512</span><br><span class="line">                 avx2</span><br><span class="line">                 avx</span><br><span class="line">                 sse2</span><br><span class="line">                 altivec</span><br><span class="line">                 power8</span><br><span class="line">                 asimd</span><br><span class="line">                 neon</span><br><span class="line">Other options:</span><br><span class="line">    -u         : Displays # of CPUs &amp; SIMD support</span><br><span class="line">    --help     : Displays this usage screen</span><br></pre></td></tr></table></figure>
-<p><code>aircrack-ng XXX.pcap     #查看ESSID，ESSID用’ESSID‘替换过了</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@Tracker:~&#x2F;liuliang# aircrack-ng  XXX.cap</span><br><span class="line">Reading packets, please wait...</span><br><span class="line">Opening XXX.cap</span><br><span class="line">Read 2986 packets.</span><br><span class="line">   #  BSSID              ESSID                     Encryption</span><br><span class="line">   1  F4:EE:14:4B:94:6C  ESSID                    WPA (1 handshake)</span><br><span class="line">Choosing first network as target.</span><br><span class="line">Reading packets, please wait...</span><br><span class="line">Opening XXX.cap</span><br><span class="line">Read 2986 packets.</span><br><span class="line">1 potential targets</span><br><span class="line">Please specify a dictionary (option -w).</span><br></pre></td></tr></table></figure>
-<p><code>aircrack-ng -w password.txt XXX.cap  #爆破获取密码，密码用********替换过了</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">root@Tracker:~&#x2F;liuliang# aircrack-ng -w password.txt XXX.cap </span><br><span class="line">Reading packets, please wait...</span><br><span class="line">Opening XXX.cap</span><br><span class="line">Read 2986 packets.</span><br><span class="line">   #  BSSID              ESSID                     Encryption</span><br><span class="line">   1  F4:EE:14:4B:94:6C  ESSID                    WPA (1 handshake)</span><br><span class="line">Choosing first network as target.</span><br><span class="line">Reading packets, please wait...</span><br><span class="line">Opening XXX.cap</span><br><span class="line">Read 2986 packets.</span><br><span class="line">1 potential targets</span><br><span class="line">                               Aircrack-ng 1.6 </span><br><span class="line">      [00:00:00] 5&#x2F;10 keys tested (266.55 k&#x2F;s) </span><br><span class="line">      Time left: 0 seconds                                      50.00%</span><br><span class="line">                           KEY FOUND! [ ******** ]</span><br><span class="line">      Master Key     : A5 3D F9 E4 2D 93 76 C8 A1 FB 22 38 CA 13 DF 3A </span><br><span class="line">                       BB D0 8D 09 A6 99 74 59 A4 8F 90 2B 63 F2 76 D5 </span><br><span class="line"></span><br><span class="line">      Transient Key  : 2C B5 8B 75 2F EC 0B D0 92 C8 E4 34 55 05 E4 94 </span><br><span class="line">                       99 60 83 17 21 78 00 3A BE ED 57 5D 3F AA 4E A2 </span><br><span class="line">                       AC 0E E6 B1 64 63 FB D7 32 DB 85 F7 D5 FB 28 1E </span><br><span class="line">                       CF 2E A6 97 0A 55 60 16 4C 07 1A D0 6C 00 00 00 </span><br><span class="line">      EAPOL HMAC     : 7A 35 0F D2 80 CB FF 4E 31 F8 1B EB EF 5E EC 00 </span><br><span class="line">root@Tracker:~&#x2F;liuliang#</span><br></pre></td></tr></table></figure>
-<p><code>airdecap-ng -e ESSID -p ******** filename.pcap</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@Tracker:~&#x2F;liuliang# airdecap-ng  -e ESSID -p ********  XXX.cap</span><br><span class="line">Total number of stations seen            5</span><br><span class="line">Total number of packets read          2986</span><br><span class="line">Total number of WEP data packets         0</span><br><span class="line">Total number of WPA data packets       580</span><br><span class="line">Number of plaintext data packets         0</span><br><span class="line">Number of decrypted WEP  packets         0</span><br><span class="line">Number of corrupted WEP  packets         0</span><br><span class="line">Number of decrypted WPA  packets       528</span><br><span class="line">Number of bad TKIP (WPA) packets         0</span><br><span class="line">Number of bad CCMP (WPA) packets         0</span><br><span class="line">root@Tracker:~&#x2F;liuliang# ls</span><br><span class="line">1.log  XXX.cap  _XXX-dec.cap.extracted  hhh   md5  output   XXX-dec.cap  1.py   essid.txt  http  mima.txt  password.txt #此时会发现多出XXX-dec.cap</span><br></pre></td></tr></table></figure>
-<p>此时用Wireshark正常分析XXX-dec.cap即可。</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
 
     <!-- copyright -->
     
@@ -372,8 +292,7 @@
     </footer>
   </div>
 
-    
- 
+   
    
 </article>
 
@@ -402,22 +321,7 @@
   <time datetime="2020-06-23T18:42:41.000Z" itemprop="datePublished">2020-06-24</time>
 </a>    
     </div>
-      
-    <div class="article-entry" itemprop="articleBody">
        
-  <p>先大概了解一下NTFS数据流<br><img src="https://upload-images.jianshu.io/upload_images/20274834-f2cd348e4941a21e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NTFS数据流百度百科"><br>#####NTFS流隐写隐藏txt文件<br>在Win10环境下做，为了方便，用磁盘工具在硬盘里腾出来一些地方<br><img src="https://upload-images.jianshu.io/upload_images/20274834-42fe7160aeb69e26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="硬盘管理"><br>在这个里面新建一个txt文件<br><img src="https://upload-images.jianshu.io/upload_images/20274834-4f8c71bf634738dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hhh.txt"></p>
-<p>执行如下操作<br><img src="https://upload-images.jianshu.io/upload_images/20274834-96e25811ed5b6880.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="echo hhhhhh &gt; hhh.txt:1.txt"><br>此时还是什么都没<br><img src="https://upload-images.jianshu.io/upload_images/20274834-44d0f780bcad45dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>执行如下操作<br><img src="https://upload-images.jianshu.io/upload_images/20274834-bd7f1617f9597b84.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="notepad hhh.txt:1.txt"><br>发现有藏有文本</p>
-<p>此方式还可以隐藏其他类型的，不止限制于文本</p>
-<p>可参考此链接下其他方法<br><a href="https://www.qingsword.com/qing/812.html#windows-NTFS-ADS-2" target="_blank" rel="noopener">https://www.qingsword.com/qing/812.html#windows-NTFS-ADS-2</a></p>
-<p>#####NTFS流隐藏文件检测<br>用以下工具，可链接下下载<br>链接: <a href="https://pan.baidu.com/s/1BV0sABVjUioSScjXq8hZBg" target="_blank" rel="noopener">https://pan.baidu.com/s/1BV0sABVjUioSScjXq8hZBg</a> 提取码: qj9q<br>里面还有另外一个工具，用来清除NTFS隐写的，一般也不会用到，感兴趣参考<br><a href="https://www.qingsword.com/qing/812.html#windows-NTFS-ADS-2" target="_blank" rel="noopener">链接</a></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/20274834-8b3ce96e916e8920.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>此外还有一个工具，NTFSstreamseditor<br>链接：<a href="https://pan.baidu.com/s/1O504jNFr48bUFdAFM2wnhg" target="_blank" rel="noopener">https://pan.baidu.com/s/1O504jNFr48bUFdAFM2wnhg</a><br>提取码：ddiu<br>挺好用的，建议虚拟机下使用，会报有毒，介意者勿用<br><img src="https://upload-images.jianshu.io/upload_images/20274834-7c66ea384091673d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NTFSstreamseditor"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/20274834-7838639c25125610.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
- 
-      <!-- reward -->
-      
-    </div>
-    
 
     <!-- copyright -->
     
@@ -426,8 +330,7 @@
     </footer>
   </div>
 
-    
- 
+   
    
 </article>
 
@@ -456,27 +359,7 @@
   <time datetime="2020-06-23T17:45:32.787Z" itemprop="datePublished">2020-06-24</time>
 </a>    
     </div>
-      
-    <div class="article-entry" itemprop="articleBody">
        
-  <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
- 
-      <!-- reward -->
-      
-    </div>
-    
 
     <!-- copyright -->
     
@@ -485,8 +368,7 @@
     </footer>
   </div>
 
-    
- 
+   
    
 </article>
 
@@ -503,7 +385,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2015-2020
+        2020
         <i class="ri-heart-fill heart_icon"></i> Tyrant-K
       </li>
     </ul>
@@ -558,10 +440,6 @@
       <button class="navbar-toggle"></button>
 <nav class="navbar">
   
-  <div class="logo">
-    <a href="/"><img src="/images/ayer-side.svg" alt="Tyrant-K"></a>
-  </div>
-  
   <ul class="nav nav-main">
     
     <li class="nav-item">
@@ -573,23 +451,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/categories">分类</a>
-    </li>
-    
-    <li class="nav-item">
       <a class="nav-item-link" href="/tags">标签</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="http://shenyu-vip.lofter.com" target="_blank" rel="noopener">摄影</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/2019/about">关于我</a>
     </li>
     
   </ul>
@@ -861,8 +723,8 @@
     
     
     
-    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
-        src="//music.163.com/outchain/player?type=2&id=22707008&auto=1&height=32"></iframe>
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="86"
+        src="//music.163.com/outchain/player?type=2&id=22707008&auto=1&height=66"></iframe>
 </div>
 
 <style>
