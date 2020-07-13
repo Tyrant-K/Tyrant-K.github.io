@@ -104,13 +104,13 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p><img src="https://upload-images.jianshu.io/upload_images/20274834-404ebc53129cd7ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Leftover Capture Data"></p>
+  <p><img src="/images/test/USB/LeftoverCaptureData.png" alt="Leftover Capture Data"></p>
 <p>USB设备，如鼠标、键盘等的命令指令啥的都在Leftover Capture Data里面</p>
 <p>tshark可以在完整安装的wireshark路径下找到，用wireshark中的tshark工具可以帮助我们将其提取出来以便分析</p>
 <p>大概句法为<code>tshark  -r usb.pcap -T fields -e usb.capdata &gt; usb.txt</code></p>
 <p>正常的情况下，里面肯定有空行，因为流量包里面有可能掺杂其他数据或者不存在Leftover Capture Data的数据流，可以用notepad++等方式吧，去除空行</p>
-<p>导出的文件大概是这个样子，不知道为什么,有的导出来是带<code>:</code>的，换了好几个wireshark版本发现都是这样<br><img src="https://upload-images.jianshu.io/upload_images/20274834-9d84e9a46629dd75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="tshark导出的文件"><br>提取出来数据流，我们重点肯定在于他输入了什么，每一条的第三字节就是我们重点关注的，也就是第五第六列。大概的转换关系在脚本的字典中也有具体的体现。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/20274834-5b5b7e58c3ef8a23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="LowB的第一次成功"><br>键盘的抓取的USB流的转换脚本</p>
+<p>导出的文件大概是这个样子，不知道为什么,有的导出来是带<code>:</code>的，换了好几个wireshark版本发现都是这样<br><img src="/images/test/USB/tshark.png" alt="tshark导出的文件"><br>提取出来数据流，我们重点肯定在于他输入了什么，每一条的第三字节就是我们重点关注的，也就是第五第六列。大概的转换关系在脚本的字典中也有具体的体现。</p>
+<p><img src="/images/test/USB/LowB.png" alt="LowB的第一次成功"><br>键盘的抓取的USB流的转换脚本</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mappings &#x3D; &#123; 0x04:&quot;A&quot;,  0x05:&quot;B&quot;,  0x06:&quot;C&quot;, 0x07:&quot;D&quot;, 0x08:&quot;E&quot;, 0x09:&quot;F&quot;, 0x0A:&quot;G&quot;,  0x0B:&quot;H&quot;, 0x0C:&quot;I&quot;,  0x0D:&quot;J&quot;, 0x0E:&quot;K&quot;, 0x0F:&quot;L&quot;, 0x10:&quot;M&quot;, 0x11:&quot;N&quot;,0x12:&quot;O&quot;,  0x13:&quot;P&quot;, 0x14:&quot;Q&quot;, 0x15:&quot;R&quot;, 0x16:&quot;S&quot;, 0x17:&quot;T&quot;, 0x18:&quot;U&quot;,0x19:&quot;V&quot;, 0x1A:&quot;W&quot;, 0x1B:&quot;X&quot;, 0x1C:&quot;Y&quot;, 0x1D:&quot;Z&quot;, 0x1E:&quot;1&quot;, 0x1F:&quot;2&quot;, 0x20:&quot;3&quot;, 0x21:&quot;4&quot;, 0x22:&quot;5&quot;,  0x23:&quot;6&quot;, 0x24:&quot;7&quot;, 0x25:&quot;8&quot;, 0x26:&quot;9&quot;, 0x27:&quot;0&quot;, 0x28:&quot;\n&quot;, 0x2a:&quot;[DEL]&quot;,  0X2B:&quot;    &quot;, 0x2C:&quot; &quot;,  0x2D:&quot;-&quot;, 0x2E:&quot;&#x3D;&quot;, 0x2F:&quot;[&quot;,  0x30:&quot;]&quot;,  0x31:&quot;\\&quot;, 0x32:&quot;~&quot;, 0x33:&quot;;&quot;,  0x34:&quot;&#39;&quot;, 0x36:&quot;,&quot;,  0x37:&quot;.&quot; &#125;</span><br><span class="line">nums &#x3D; []</span><br><span class="line">keys &#x3D; open(&#39;usb.txt&#39;)</span><br><span class="line"></span><br><span class="line">for line in keys:</span><br><span class="line">    nums.append(int(line[4:6],16))</span><br><span class="line"></span><br><span class="line">output &#x3D; &quot;&quot;</span><br><span class="line">for n in nums:</span><br><span class="line">    if n &#x3D;&#x3D; 0:</span><br><span class="line">             continue</span><br><span class="line">    if n in mappings:</span><br><span class="line">             output +&#x3D; mappings[n]</span><br><span class="line">    else:</span><br><span class="line">             output +&#x3D; &#39;[unknown]&#39;</span><br><span class="line"></span><br><span class="line">print(&quot;output:&quot;+output)</span><br></pre></td></tr></table></figure> 
       <!-- reward -->
       
@@ -562,6 +562,6 @@
 
     
   </div>
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"miku"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
 
 </html>

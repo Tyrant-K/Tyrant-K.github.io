@@ -106,11 +106,11 @@
        
   <p><code>volatility -f memory imageinfo  #查看系统版本</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP0x64, Win2008R2SP1x64_24000, Win2008R2SP1x64_23418, Win2008R2SP1x64, Win7SP1x64_24000, Win7SP1x64_23418</span><br><span class="line">AS Layer1 : WindowsAMD64PagedMemory (Kernel AS)</span><br><span class="line">AS Layer2 : FileAddressSpace (&#x2F;root&#x2F;桌面&#x2F;quzheng3&#x2F;memory)</span><br><span class="line">PAE type : No PAE</span><br><span class="line">DTB : 0x187000L</span><br><span class="line">KDBG : 0xf80003ffd0a0L</span><br><span class="line">Number of Processors : 1</span><br><span class="line">Image Type (Service Pack) : 1</span><br><span class="line">KPCR for CPU 0 : 0xfffff80003ffed00L</span><br><span class="line">KUSER_SHARED_DATA : 0xfffff78000000000L</span><br><span class="line">Image date and time : 2020-05-17 06:20:56 UTC+0000</span><br><span class="line">Image local date and time : 2020-05-17 14:20:56 +0800</span><br></pre></td></tr></table></figure>
-<p><code>volatility -f  memory --profile=Win7SP1x64 pslist   # 列出进程</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-75308a8d4b220128.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="列出进程"></p>
-<p><code>volatility -f memory --profile=Win7SP1x64 cmdscan  #查看cmd命令历史</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-f383ecb64fb8a7e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="查看cmd命令历史"></p>
-<p><code>volatility -f  memory --profile=Win7SP1x64 filescan | grep flag #查找flag文件</code><br><code>volatility -f memory --profile=Win7SP1x64 dumpfiles -Q 0x000000001e85f430 --dump-dir=./  #dump目标文件</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-556614964ab8be37.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="查找flag文件"></p>
-<p><code>volatility -f memory --profile=Win7SP1x64 printkey -K &quot;SAM\Domains\Account\Users\Names&quot;   #列出SAM表用户</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-bce93325a20cdda9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="列出SAM用户"></p>
-<p><code>volatility -f  memory --profile=Win7SP1x64 hivelist  #获取system和SAM地址</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-b9931b93e5358728.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="SAM和system地址"><br><code>volatility -f memory --profile=Win7SP1x64 hashdump -y 0xfffff8a000024010 -s 0xfffff8a00167a010</code><br><img src="https://upload-images.jianshu.io/upload_images/20274834-a9d4521df4e303b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="SAM账号密码"><br>NTLM算法计算，可得原密码</p>
+<p><code>volatility -f  memory --profile=Win7SP1x64 pslist   # 列出进程</code><br><img src="/images/test/Volatility/pslist.png" alt="列出进程"></p>
+<p><code>volatility -f memory --profile=Win7SP1x64 cmdscan  #查看cmd命令历史</code><br><img src="/images/test/Volatility/cmdscan.png" alt="查看cmd命令历史"></p>
+<p><code>volatility -f  memory --profile=Win7SP1x64 filescan | grep flag #查找flag文件</code><br><code>volatility -f memory --profile=Win7SP1x64 dumpfiles -Q 0x000000001e85f430 --dump-dir=./  #dump目标文件</code><br><img src="/images/test/Volatility/filescan.png" alt="查找flag文件"></p>
+<p><code>volatility -f memory --profile=Win7SP1x64 printkey -K &quot;SAM\Domains\Account\Users\Names&quot;   #列出SAM表用户</code><br><img src="/images/test/Volatility/SAM.png" alt="列出SAM用户"></p>
+<p><code>volatility -f  memory --profile=Win7SP1x64 hivelist  #获取system和SAM地址</code><br><img src="/images/test/Volatility/SAMsystem.png" alt="SAM和system地址"><br><code>volatility -f memory --profile=Win7SP1x64 hashdump -y 0xfffff8a000024010 -s 0xfffff8a00167a010</code><br><img src="/images/test/Volatility/SAMpassword.png" alt="SAM账号密码"><br>NTLM算法计算，可得原密码</p>
  
       <!-- reward -->
       
@@ -571,6 +571,6 @@
 
     
   </div>
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"miku"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
 
 </html>
