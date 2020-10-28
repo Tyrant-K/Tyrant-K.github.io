@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-17T13:09:27.687Z</updated>
+  <updated>2020-10-10T11:35:43.712Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,52 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>[Web]CTFshow_Web入门_信息搜集</title>
+    <link href="http://yoursite.com/2020/10/10/Web-CTFshow-Web%E5%85%A5%E9%97%A8-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86/"/>
+    <id>http://yoursite.com/2020/10/10/Web-CTFshow-Web%E5%85%A5%E9%97%A8-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86/</id>
+    <published>2020-10-10T05:37:56.000Z</published>
+    <updated>2020-10-10T11:35:43.712Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p><img src="/images/test/Web/Web.png" alt=""></p><p>##Web1<br><img src="/images/test/Web/Web1A.png" alt=""><br>题目打开始是这样的<br><img src="/images/test/Web/Web1Q1.png" alt=""><br>直接看源码<br><img src="/images/test/Web/Web1Q2.png" alt=""><br>##Web2<br><img src="/images/test/Web/Web2A.png" alt=""><br>题目打开是这样的，右键无法打开菜单，无法查看源码，F12也不可以<br><img src="/images/test/Web/Web2Q1.png" alt=""><br>更改JavaScript权限，即可查看源码<br><img src="/images/test/Web/Web2Q2.png" alt=""><br><img src="/images/test/Web/Web2Q3.png" alt=""><br>##Web3<br><img src="/images/test/Web/Web3A.png" alt=""></p><p>真就抓个包看看<br><img src="/images/test/Web/Web3Q.png" alt=""><br>##Web4<br><img src="/images/test/Web/Web4A.png" alt=""><br>访问robots.txt文件<br><img src="/images/test/Web/Web4Q1.png" alt=""><br>访问flagishere.txt文件<br><img src="/images/test/Web/Web4Q2.png" alt=""><br>##Web5<br><img src="/images/test/Web/Web5A.png" alt=""><br>根据hint，访问index.phps<br><img src="/images/test/Web/Web5Q.png" alt=""><br>##Web6<br><img src="/images/test/Web/Web6A.png" alt=""><br>根据hint访问<a href="http://www.zip(一般的会有网站备份)" target="_blank" rel="noopener">www.zip(一般的会有网站备份)</a><br><img src="/images/test/Web/Web6Q1.png" alt=""><br>找到fl000g.txt文件<br><img src="/images/test/Web/Web6Q2.png" alt=""><br>##Web7<br><img src="/images/test/Web/Web7A.png" alt=""><br>版本控制常见的有git和svn，尝试访问/.git,得到flag<br><img src="/images/test/Web/Web7Q.png" alt=""><br>##Web8<br><img src="/images/test/Web/Web8A.png" alt=""><br>这次是svn，访问/.svn<br><img src="/images/test/Web/Web8Q.png" alt=""><br>##Web9<br><img src="/images/test/Web/Web9A.png" alt=""><br>vim缓存文件(swp文件)，访问index.php.swp<br><img src="/images/test/Web/Web9Q.png" alt=""><br>关于swp文件，<a href="https://blog.csdn.net/haijiege/article/details/85230327" target="_blank" rel="noopener">https://blog.csdn.net/haijiege/article/details/85230327</a><br>vim -r filename恢复，用的最多的应该就这一条了<br>##Web10</p><p><img src="/images/test/Web/Web10A.png" alt=""><br>查看cookie<br><img src="/images/test/Web/Web10Q1.png" alt="Firefox"><br><img src="/images/test/Web/Web10Q2.png" alt="Google"></p><p>##Web11<br><img src="/images/test/Web/Web11A.png" alt=""><br>域名解析<a href="http://dbcha.com/" target="_blank" rel="noopener">http://dbcha.com/</a><br><img src="/images/test/Web/Web11Q1.png" alt=""><br>才知道域名解析也有很多东西<br><img src="/images/test/Web/Web11Q2.png" alt=""><br>##Web12<br><img src="/images/test/Web/Web12A.png" alt=""><br>访问/admin，登录后台，hint说是公开信息，尝试电话，success，登陆后就可看到flag<br><img src="/images/test/Web/Web12Q1.png" alt=""><br><img src="/images/test/Web/Web12Q2.png" alt=""><br>##Web13<br><img src="/images/test/Web/Web13A.png" alt=""><br><img src="/images/test/Web/Web13Q1.png" alt=""><br><img src="/images/test/Web/Web13Q2.png" alt=""><br><img src="/images/test/Web/Web13Q3.png" alt=""><br><img src="/images/test/Web/Web13Q4.png" alt=""><br><img src="/images/test/Web/Web13Q5.png" alt=""></p><p>##Web14<br><img src="/images/test/Web/Web14A.png" alt=""></p><p><img src="/images/test/Web/Web14Q1.png" alt=""><br>根据hint访问editor<br><img src="/images/test/Web/Web14Q2.png" alt=""><br><img src="/images/test/Web/Web14Q3.png" alt=""><br>通过附件功能，获取路径信息<br><img src="/images/test/Web/Web14Q4.png" alt=""><br><img src="/images/test/Web/Web14Q5.png" alt=""><br><img src="/images/test/Web/Web14Q6.png" alt=""><br>##Web15<br><img src="/images/test/Web/Web15A.png" alt=""><br><img src="/images/test/Web/Web15Q1.png" alt=""><br>访问admin发现后台<br><img src="/images/test/Web/Web15Q2.png" alt=""><br>忘记密码，发现密保问题，所在地<br><img src="/images/test/Web/Web15Q3.png" alt=""><br>查询主页QQ邮箱所在地，得到是西安<br><img src="/images/test/Web/Web15Q4.png" alt=""><br><img src="/images/test/Web/Web15Q5.png" alt=""><br>重置密码<br><img src="/images/test/Web/Web15Q6.png" alt=""><br><img src="/images/test/Web/Web15Q7.png" alt=""></p><p>##Web16<br><img src="/images/test/Web/Web16A.png" alt=""><br>第一反应前端很好看<br><img src="/images/test/Web/Web16Q1.png" alt=""><br>第一次接触，访问雅黑探针 tz.php,就类似一个获取网站信息的一个页面<br><img src="/images/test/Web/Web16Q2.png" alt=""><br>phpinfo查找flag即可<br><img src="/images/test/Web/Web16Q3.png" alt=""></p><p>##Web17<br><img src="/images/test/Web/Web17A.png" alt=""><br>大佬给的网站，直接查IP <a href="https://ipchaxun.com/" target="_blank" rel="noopener">https://ipchaxun.com/</a><br><img src="/images/test/Web/Web17Q.png" alt=""></p><p>##Web18<br><img src="/images/test/Web/Web18A.png" alt=""><br><img src="/images/test/Web/Web18Q1.png" alt=""><br>查看源码<br><img src="/images/test/Web/Web18Q2.png" alt=""><br>查看js<br><img src="/images/test/Web/Web18Q3.png" alt=""><br>unicode转中文<br><img src="/images/test/Web/Web18Q4.png" alt=""><br><img src="/images/test/Web/Web18Q5.png" alt=""><br>##Web19<br><img src="/images/test/Web/Web19A.png" alt=""><br>查看源代码，密钥在源代码里<br><img src="/images/test/Web/Web19Q1.png" alt=""><br>post传参<br><img src="/images/test/Web/Web19Q2.png" alt=""><br>##Web20<br><img src="/images/test/Web/Web20A.png" alt="image.png"><br>感谢群里的大佬，告诉怎么操作，虽然还不太懂什么原理<br><img src="/images/test/Web/Web20Q1.png" alt=""><br>下载好以后用access或文本编辑器就可以打开<br><img src="/images/test/Web/Web20Q2.png" alt=""><br><img src="/images/test/Web/Web20Q3.png" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Web" scheme="http://yoursite.com/tags/Web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2020/10/01/hello-world/"/>
+    <id>http://yoursite.com/2020/10/01/hello-world/</id>
+    <published>2020-10-01T07:36:03.916Z</published>
+    <updated>2020-06-23T17:45:32.787Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>[Django]Django初探</title>
@@ -88,9 +134,9 @@
     
     
     
-      <category term="Misc" scheme="http://yoursite.com/tags/Misc/"/>
-    
       <category term="内存取证" scheme="http://yoursite.com/tags/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/"/>
+    
+      <category term="Misc" scheme="http://yoursite.com/tags/Misc/"/>
     
   </entry>
   
@@ -195,28 +241,6 @@
       <category term="Misc" scheme="http://yoursite.com/tags/Misc/"/>
     
       <category term="硬盘取证" scheme="http://yoursite.com/tags/%E7%A1%AC%E7%9B%98%E5%8F%96%E8%AF%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2020/06/24/hello-world/"/>
-    <id>http://yoursite.com/2020/06/24/hello-world/</id>
-    <published>2020-06-23T17:45:32.787Z</published>
-    <updated>2020-06-23T17:45:32.787Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
-    
-    </summary>
-    
-    
     
   </entry>
   
